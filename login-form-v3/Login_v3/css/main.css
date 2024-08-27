@@ -259,6 +259,7 @@ iframe {
   padding: 0 5px 0 38px;
 }
 
+
 /*---------------------------------------------*/ 
 .focus-input100 {
   position: absolute;
@@ -269,6 +270,30 @@ iframe {
   left: 0;
   pointer-events: none;
 }
+
+.focus-input100 i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 4px;
+  font-size: 16px;
+  color: #81c408;
+}
+
+@keyframes rotateIcon {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.animate-icon {
+  animation: rotateIcon 1s linear infinite;
+}
+
+
 
 .focus-input100::before {
   content: "";
