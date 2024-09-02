@@ -3,7 +3,7 @@
 $host="localhost";
 $user="root";
 $pass="";
-$database="db_gigseats";
+$database="a_hoops";
 $conn=mysqli_connect($host,$user,$pass,$database);
 if(!$conn){
 echo "KONEKSI GAGAL!!";
