@@ -5,56 +5,57 @@ session_start();
 // Memanggil file koneksi ke database
 include "koneksi.php";
 
-// Menangkap data yang dikirim dari form login.php
-$email = $_POST['logmail'];
-$password = $_POST['logpass'];
+// Pastikan form sudah mengirim data
+if (isset($_POST['logmail']) && isset($_POST['logpass'])) {
+    $email = mysqli_real_escape_string($conn, $_POST['logmail']);
+    $password = mysqli_real_escape_string($conn, $_POST['logpass']);
 
-// Format acak password harus sama dengan proses_register.php
-$pengacak = "p3ng4c4k";
-$password_acak = md5($pengacak . md5($password) . $pengacak);
+    // Format acak password harus sama dengan proses_register.php
+    $pengacak = "p3ng4c4k";
+    $password_acak = md5($pengacak . md5($password) . $pengacak);
 
-// Menyeleksi data user dengan username dan password acak yang sesuai
-$query = "SELECT * FROM tb_user WHERE email='$email' AND password='$password_acak'";
+    // Menyeleksi data user dengan email dan password acak yang sesuai
+    $query = "SELECT * FROM users WHERE email='$email' AND password='$password_acak'";
 
-// Menjalankan query dan menampung hasil dalam variabel $hasil
-$hasil = mysqli_query($conn, $query);
+    // Menjalankan query dan menampung hasil dalam variabel $hasil
+    $hasil = mysqli_query($conn, $query);
 
-// Menangkap data dari hasil perintah query SQL
-$data = mysqli_fetch_array($hasil);
+    // Menangkap data dari hasil perintah query SQL
+    $data = mysqli_fetch_array($hasil);
 
-// Menghitung jumlah data yang ditemukan
-$cek = mysqli_num_rows($hasil);
+    // Menghitung jumlah data yang ditemukan
+    $cek = mysqli_num_rows($hasil);
 
-// Cek apakah username dan password ditemukan pada database
-if ($cek > 0) {
-    // Cek jika user login sebagai admin
-    if ($data['level'] == "admin") {
-        // Buat session login dan username
-        $_SESSION['username'] = $username;
-        $_SESSION['level'] = "admin";
-        // Alihkan ke halaman dashboard admin
-        header("Location: hal_admin.php");
+    // Cek apakah email dan password ditemukan pada database
+    if ($cek > 0) {
+        // Cek jika user login sebagai admin
+        if ($data['level'] == "admin") {
+            // Buat session login dan email
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['level'] = "admin";
+            // Alihkan ke halaman dashboard admin
+            header("Location: hal_admin.php");
+            exit();
+        }
+        // Cek jika user login sebagai user
+        else if ($data['level'] == "user") {
+            // Buat session login dan email
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['level'] = "user";
+            // Alihkan ke halaman dashboard user
+            header("Location: ../../index.html");
+            exit();
+        } else {
+            echo "Anda Bukan Admin dan Bukan User";
+        }
+    } else {
+        // Jika email dan password tidak ditemukan pada database
+        echo "GAGAL LOGIN!!!, Email dan Password tidak ditemukan";
     }
-    // Cek jika user login sebagai user
-    else if ($data['level'] == "user") {
-        // Buat session login dan username
-        $_SESSION['username'] = $username;
-        $_SESSION['level'] = "user";
-        // Alihkan ke halaman dashboard user
-        header("Location: index.html");
-    }
-    else {
-        echo "Anda Bukan Admin dan Bukan User";
-        // Alihkan ke halaman login kembali (Opsional)
-        // header("Location: login.php");
-    }
-}
-else {
-    // Jika username dan password tidak ditemukan pada database
-    echo "GAGAL LOGIN!!!, Username dan Password tidak ditemukan";
+} else {
+    echo "Form tidak lengkap!";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,9 +88,9 @@ else {
 <body>
 	
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('images/bg\ ball.jpg');">
+		<div class="container-login100";>
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="login.php" method="post">
 					<span class="login100-form-logo">
 						<!-- Ganti ikon bulat hijau dengan logo -->
 						<img src="images/logo-removebg-preview.png" alt="Logo" style="width: 200px; height: 200px;">
@@ -99,24 +100,24 @@ else {
 						Login
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+					<div class="wrap-input100 validate-input" data-validate="Enter email">
+						<input class="input100" type="email" name="logmail" placeholder="Email" required>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="logpass" placeholder="Password" required>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
-						<a href="/A-HOOPS/landingpage.html"><button class="login100-form-btn">
+						<button class="login100-form-btn" type="submit">
 							Login
-						</button></a>
+						</button>
 					</div>
 
 					<div class="text-center p-t-90">
-						<a class="txt1" href="">
+						<a class="txt1" href="register.php">
 							Don't have an account yet? Register
 						</a>
 					</div>
@@ -143,7 +144,4 @@ else {
 	<!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-
-</body>
-</html>
+	<

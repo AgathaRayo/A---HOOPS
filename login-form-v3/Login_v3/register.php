@@ -1,33 +1,29 @@
 <?php
-//memanggil file koneksi.php
+// Memanggil file koneksi ke database
 include "koneksi.php";
 
-$username = $_POST['username'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-$level = "user"; //level otomatis diisi user pd saat registrasi
-$alamat= "alamat"; // Correctly retrieve the no_hp value
+// Menangkap data yang dikirim dari form register.php
+if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-//format acak password harus sama dengan proses_login.php
-$pengacak = "p3ng4c4k";
-$password_acak = md5($pengacak.md5($password).$pengacak);
+    // Format acak password
+    $pengacak = "p3ng4c4k";
+    $password_acak = md5($pengacak . md5($password) . $pengacak);
 
-$kirim = isset($_POST['kirim']) ? $_POST['kirim'] : false;
-
-//proses kirim data ke database MYSQL
-if($kirim){
-    $query = "INSERT INTO users (username, email, password, level, alamat) VALUES ('$username', '$email', '$password_acak', '$level', '$alamat')";
-    $hasil = mysqli_query($conn, $query);
-
-    if ($hasil) {
-        header("Location: login.php");
+    // Menyimpan data ke database
+    $query = "INSERT INTO users (username, email, password, level) VALUES ('$username', '$email', '$password_acak', 'user')";
+    if (mysqli_query($conn, $query)) {
+        echo "Registrasi User Berhasil!";
     } else {
         echo "Registrasi User Gagal!";
     }
 } else {
-    echo "Registrasi User Gagal!";
+    echo "Form tidak lengkap!";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,14 +54,29 @@ if($kirim){
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-	<!--===============================================================================================-->
+	<style>
+		@keyframes slideUp {
+			from {
+				transform: translateY(10px);
+				opacity: 0;
+			}
+			to {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+
+		.email-icon {
+			animation: slideUp 0.5s ease-in-out;
+		}
+	</style>
 </head>
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg\ ball.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="proses_register.php" method="post">
+				<form class="login100-form validate-form" action="" method="post">
 					<span class="login100-form-logo">
 						<!-- Ganti ikon bulat hijau dengan logo -->
 						<img src="images/logo-removebg-preview.png" alt="Logo" style="width: 200px; height: 200px;">
@@ -82,8 +93,8 @@ if($kirim){
 
 					
 					<div class="wrap-input100 validate-input" data-validate="Enter email">
-						<input class="input100" type="text" name="Email" placeholder="Email" required>
-						<span class="focus-input100">
+						<input class="input100" type="text" name="email" placeholder="Email" required>
+						<span class="focus-input100 email-icon">
 							<i class="fa fa-envelope "></i>
 						</span>
 					</div>
@@ -92,7 +103,7 @@ if($kirim){
 					
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password"required>
+						<input class="input100" type="password" name="password" placeholder="Password"required>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -103,8 +114,8 @@ if($kirim){
 					</div>
 
 					<div class="text-center p-t-90">
-						<a class="txt1" href="">
-							Don't have an account yet? Register
+						<a class="txt1" href="login.php">
+							already have an account? Log in
 						</a>
 					</div>
 				</form>
