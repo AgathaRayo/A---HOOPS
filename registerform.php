@@ -1,3 +1,32 @@
+<?php
+// Memanggil file koneksi ke database
+include "koneksi.php";
+
+// Menangkap data yang dikirim dari form register.php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Format acak password
+        $pengacak = "p3ng4c4k";
+        $password_acak = md5($pengacak . md5($password) . $pengacak);
+
+        // Menyimpan data ke database
+        $query = "INSERT INTO users (username, email, password, level) VALUES ('$username', '$email', '$password_acak', 'user')";
+        if (mysqli_query($conn, $query)) {
+            // Jika registrasi berhasil, redirect ke index.html
+            header('Location: index.html');
+            exit(); // Tambahkan exit untuk memastikan tidak ada kode lebih lanjut yang dieksekusi
+        } else {
+            echo "Registrasi User Gagal!";
+        }
+    } else {
+        echo "Form tidak lengkap!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,13 +62,13 @@
             align-items: center;
         }
         .form-container {
-            max-width: 500px; /* Increased width */
+            max-width: 500px; 
             width: 100%;
             background: #fff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center align text and elements inside form-container */
+            text-align: center; 
         }
         .form-header {
             margin-bottom: 20px;
@@ -48,12 +77,12 @@
             margin-bottom: 10px;
         }
         .logo-container {
-            width: 120px; /* Adjust as needed */
-            height: 120px; /* Adjust as needed */
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px;
             border-radius: 50%;
             overflow: hidden;
-            background-color: #f8f9fa; /* Background color for the logo container */
+            background-color: #f8f9fa;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -66,14 +95,13 @@
 </head>
 <body>
     <div class="form-container">
-        <!-- Tempat untuk Logo -->
         <div class="logo-container">
             <img src="img/logo.png" alt="Logo">
         </div>
         <div class="form-header">
             <h2>Register</h2>
         </div>
-        <form action="register_process.php" method="POST">
+        <form action="registerform.php" method="POST">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -86,12 +114,8 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-            </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
-            <p class="mt-3 text-center">Already have an account? <a href="login.html">Login here</a></p>
+            <p class="mt-3 text-center">Already have an account? <a href="login.php">Login here</a></p>
         </form>
     </div>
 </body>
