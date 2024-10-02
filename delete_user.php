@@ -1,12 +1,23 @@
 <?php
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $sql = "DELETE FROM login_system WHERE id = $id";
-    if (mysqli_query($conn, $sql)) {
-        header('Location: admin-dashboard-user.php');
-        exit();
+include 'koneksi.php'; // Koneksi ke database
+
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
+
+    // Query untuk menghapus user
+    $sql = "DELETE FROM users WHERE user_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        header("Location: dashboard customer.php");
+        exit;
     } else {
-        echo "Error deleting record: " . mysqli_error($conn);
+        echo "Error deleting user.";
     }
+} else {
+    echo "Invalid ID!";
 }
+
+mysqli_close($conn);
 ?>
