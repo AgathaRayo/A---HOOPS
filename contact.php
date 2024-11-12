@@ -1,3 +1,33 @@
+<?php
+// Include file koneksi database
+include 'koneksi.php';
+
+// Cek apakah form telah disubmit
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari form
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    // Mencegah SQL Injection
+    $name = mysqli_real_escape_string($conn, $name);
+    $email = mysqli_real_escape_string($conn, $email);
+    $message = mysqli_real_escape_string($conn, $message);
+
+    // Query untuk menyimpan data ke database
+    $sql = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
+
+    // Eksekusi query dan cek apakah berhasil
+    if ($conn->query($sql) === TRUE) {
+        echo "Message sent successfully!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    
+    // Tutup koneksi
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +38,9 @@
         <meta content="" name="keywords">
         <meta content="" name="description">
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="img/logo.png">
+        
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +97,7 @@
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>  
                             <a href="testimonial.html" class="nav-item nav-link">Testimonial</a>
-                            <a href="contact.html" class="nav-item nav-link active">Contact</a>
+                            <a href="contact.php" class="nav-item nav-link active">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -134,13 +167,14 @@
                             </div>
                         </div>
                         <div class="col-lg-7">
-                            <form action="" class="">
-                                <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                                <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
-                                <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
-                            </form>
-                        </div>
+    <form action="contact.php" class="form" method="post">
+        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="name" placeholder="Your Name" required>
+        <input type="email" class="w-100 form-control border-0 py-3 mb-4" name="email" placeholder="Enter Your Email" required>
+        <textarea class="w-100 form-control border-0 mb-4" name="message" rows="5" cols="10" placeholder="Your Message" required></textarea>
+        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
+    </form>
+</div>
+
                         <div class="col-lg-5">
                             <div class="d-flex p-4 rounded mb-4 bg-white">
                                 <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>

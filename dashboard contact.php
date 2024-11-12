@@ -1,14 +1,22 @@
+<?php
+// Hubungkan dengan file koneksi database
+include 'koneksi.php';
+
+// Query untuk mengambil data dari tabel contact
+$sql = "SELECT * FROM contact ORDER BY created_at DESC";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders - Admin Dashboard</title>
+    <title>Admin - Contact Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
       <!-- Favicon -->
-	    <link rel="icon" type="image/png" href="img/logo.png">
-    
+	  <link rel="icon" type="image/png" href="img/logo.png">
+
       <!-- Google Web Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +36,7 @@
  
       <!-- Template Stylesheet -->
       <link href="css/style.css" rel="stylesheet">
-    
+      
     <style>
         body {
             font-size: .875rem;
@@ -54,12 +62,12 @@
             color: #007bff;
         }
 
-        .table-responsive {
-            margin-top: 20px;
+        .card {
+            margin-bottom: 20px;
         }
 
-        .card-header {
-            font-weight: bold;
+        .table-responsive {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -77,7 +85,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="orders.html">
+                            <a class="nav-link" href="dashboard order.html">
                                 <span data-feather="file"></span>
                                 Orders
                             </a>
@@ -95,7 +103,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard contact.php">
+                            <a class="nav-link active" href="contact admin.html">
                                 <span data-feather="mail"></span>
                                 Contact
                             </a>
@@ -107,91 +115,50 @@
             <!-- Main content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Orders</h1>
+                    <h1 class="h2">Contact Management</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
                         </div>
-                        <input type="text" class="form-control form-control-sm" placeholder="Search orders">
                     </div>
                 </div>
 
-                <!-- Filter Section -->
-                <div class="card mb-4">
-                    <div class="card-header">Filter Orders</div>
-                    <div class="card-body">
-                        <form class="row g-3">
-                            <div class="col-md-4">
-                                <label for="orderStatus" class="form-label">Status</label>
-                                <select class="form-select" id="orderStatus">
-                                    <option selected>Choose...</option>
-                                    <option value="1">Pending</option>
-                                    <option value="2">Completed</option>
-                                    <option value="3">Canceled</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="orderDate" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="orderDate">
-                            </div>
-                            <div class="col-md-4 align-self-end">
-                                <button type="submit" class="btn btn-primary">Apply Filters</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Orders Table -->
+                <!-- Contact Messages List -->
+                <h2>Inbox</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Actions</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Pesan</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>#1001</td>
-                                <td>John Doe</td>
-                                <td>2023-08-19</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                                <td>$100.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">View</button>
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>#1002</td>
-                                <td>Jane Smith</td>
-                                <td>2023-08-18</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                                <td>$200.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">View</button>
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>#1003</td>
-                                <td>Michael Johnson</td>
-                                <td>2023-08-17</td>
-                                <td><span class="badge bg-danger">Canceled</span></td>
-                                <td>$150.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary">View</button>
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                </td>
-                            </tr>
+                            <?php
+                            if ($result->num_rows > 0) {
+                                // Output data setiap baris
+                                $counter = 1;
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $counter++ . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['message']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
+                                    echo "<td>";
+                                    echo "<button type='button' class='btn btn-sm btn-primary' data-bs-toggle='modal' data-bs-target='#replyModal' data-bs-email='" . htmlspecialchars($row['email']) . "'>Reply</button> ";
+                                    echo "<a href='delete_contact.php?id=" . $row['id'] . "' class='btn btn-sm btn-danger'>Hapus</a>";
+                                    echo "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='6'>Tidak ada pesan masuk</td></tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -199,10 +166,44 @@
         </div>
     </div>
 
+    <!-- Reply Modal -->
+    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="replyModalLabel">Reply to User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="replyForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Penerima</label>
+                            <input type="email" class="form-control" id="email" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Pesan Balasan</label>
+                            <textarea class="form-control" id="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
-        feather.replace()
+        feather.replace();
+
+        // Event listener for opening the modal and setting the email input
+        var replyModal = document.getElementById('replyModal');
+        replyModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; 
+            var email = button.getAttribute('data-bs-email'); 
+            var emailInput = document.getElementById('email');
+            emailInput.value = email; 
+        });
     </script>
 </body>
 </html>

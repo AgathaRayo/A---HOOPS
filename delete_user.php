@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
 
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: dashboard customer.php");
+        header("Location: dashboard user.php");
         exit;
     } else {
         echo "Error deleting user.";

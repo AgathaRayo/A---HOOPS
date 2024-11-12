@@ -2,21 +2,20 @@
 // Koneksi ke database
 include 'koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_id = $_POST['user_id'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $level = $_POST['level'];
+// Ambil data dari form
+$user_id = $_POST['user_id'];
+$level = $_POST['level'];
 
-    // Update data user di database
-    $sql = "UPDATE users SET username='$username', email='$email', level='$level' WHERE user_id='$user_id'";
-    if (mysqli_query($conn, $sql)) {
-        echo "User updated successfully";
-        header('Location: dashboard customer.php');
-    } else {
-        echo "Error updating user: " . mysqli_error($conn);
-    }
+// Query untuk mengupdate role pengguna
+$sql = "UPDATE users SET level='$level' WHERE user_id='$user_id'";
 
-    mysqli_close($conn);
+// Eksekusi query
+if (mysqli_query($conn, $sql)) {
+    header("Location: dashboard user.php"); // Redirect kembali ke halaman users
+} else {
+    echo "Error updating record: " . mysqli_error($conn);
 }
+
+// Tutup koneksi
+mysqli_close($conn);
 ?>

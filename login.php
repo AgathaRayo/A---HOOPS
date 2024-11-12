@@ -16,46 +16,24 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
     // Menyeleksi data user dengan email dan password acak yang sesuai
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password_acak'";
-
-    // Menjalankan query dan menampung hasil dalam variabel $hasil
     $hasil = mysqli_query($conn, $query);
-
-    // Menangkap data dari hasil perintah query SQL
     $data = mysqli_fetch_array($hasil);
-
-    // Menghitung jumlah data yang ditemukan
     $cek = mysqli_num_rows($hasil);
 
     // Cek apakah email dan password ditemukan pada database
     if ($cek > 0) {
-        // Cek jika user login sebagai admin
-        if ($data['level'] == "admin") {
-            // Buat session login dan email
-            $_SESSION['email'] = $data['email'];
-            $_SESSION['level'] = "admin";
-            // Alihkan ke halaman dashboard admin
-            header("Location: hal_admin.php");
-            exit();
-        }
-        // Cek jika user login sebagai user
-        else if ($data['level'] == "user") {
-            // Buat session login dan email
-            $_SESSION['email'] = $data['email'];
-            $_SESSION['level'] = "user";
-            // Alihkan ke halaman utama (index.html)
-            header("Location: index.html");
-            exit();
-        } else {
-            echo "Anda bukan Admin dan bukan User.";
-        }
+        $_SESSION['email'] = $data['email'];
+        $_SESSION['level'] = $data['level'];
+        header("Location: index.php");
+        exit();
     } else {
-        // Jika email dan password tidak ditemukan pada database
         echo "GAGAL LOGIN!!!, Email dan Password tidak ditemukan";
     }
 } else {
     echo "Form tidak lengkap!";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,20 +41,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Google Web Fonts -->
+    <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
-
-    <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     
     <style>
@@ -91,7 +62,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             align-items: center;
         }
         .form-container {
-            max-width: 500px; /* Menambah lebar maksimum */
+            max-width: 500px;
             width: 100%;
             background: #fff;
             padding: 30px;
@@ -107,12 +78,12 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             margin-bottom: 10px;
         }
         .logo-container {
-            width: 100px; /* Ukuran logo */
-            height: 100px; /* Ukuran logo */
+            width: 100px;
+            height: 100px;
             margin: 0 auto 20px;
             border-radius: 50%;
             overflow: hidden;
-            background-color: #f8f9fa; /* Warna latar belakang logo */
+            background-color: #f8f9fa;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -125,7 +96,6 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 </head>
 <body>
     <div class="form-container">
-        <!-- Tempat untuk Logo -->
         <div class="logo-container">
             <img src="img/logo.png" alt="Logo">
         </div>

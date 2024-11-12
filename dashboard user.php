@@ -3,11 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customers - Admin Dashboard</title>
+    <title>User - Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
+   
+      <!-- Favicon -->
+      <link rel="icon" type="image/png" href="img/logo.png">
+
+      <!-- Google Web Fonts -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+ 
+      <!-- Icon Font Stylesheet -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+ 
+      <!-- Libraries Stylesheet -->
+      <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+      <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+ 
+ 
+      <!-- Customized Bootstrap Stylesheet -->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+ 
+      <!-- Template Stylesheet -->
+      <link href="css/style.css" rel="stylesheet">
+      
+   <style>
         body {
             font-size: .875rem;
         }
@@ -53,33 +77,27 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard_order.html">
+                            <a class="nav-link" href="dashboard order.html">
                                 <span data-feather="file"></span>
                                 Orders
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard_produk.html">
+                            <a class="nav-link" href="dashboard produk.html">
                                 <span data-feather="shopping-cart"></span>
                                 Products
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="dashboard_customer.html">
+                            <a class="nav-link active" aria-current="page" href="dashboard user.php">
                                 <span data-feather="users"></span>
-                                Users
+                                User
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard_report.html">
-                                <span data-feather="bar-chart-2"></span>
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard_integrations.html">
-                                <span data-feather="layers"></span>
-                                Integrations
+                            <a class="nav-link" href="dashboard contact.php">
+                                <span data-feather="mail"></span>
+                                Contact
                             </a>
                         </li>
                     </ul>
@@ -159,19 +177,12 @@
                 <div class="modal-body">
                     <form id="editUserForm" method="POST" action="edit_user.php">
                         <input type="hidden" name="user_id" id="user_id">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
+                        
                         <div class="mb-3">
                             <label for="level" class="form-label">Role</label>
                             <select class="form-control" id="level" name="level">
                                 <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
+                                <option value="user">user</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Save changes</button>
