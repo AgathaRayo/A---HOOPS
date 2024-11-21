@@ -1,36 +1,3 @@
-<?php
-// Include file koneksi database
-include 'koneksi.php';
-
-// Cek apakah form telah disubmit
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
-
-    // Mencegah SQL Injection
-    $name = mysqli_real_escape_string($conn, $name);
-    $email = mysqli_real_escape_string($conn, $email);
-    $message = mysqli_real_escape_string($conn, $message);
-
-    // Query untuk menyimpan data ke database
-    $sql = "INSERT INTO contact (name, email, message) VALUES ('$name', '$email', '$message')";
-
-    // Eksekusi query dan cek apakah berhasil
-    if ($conn->query($sql) === TRUE) {
-        echo "Message sent successfully!";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    
-    // Tutup koneksi
-    $conn->close();
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="navbar-nav mx-auto">
                             <a href="index.php" class="nav-item nav-link">Home</a>
                             <a href="shop.php" class="nav-item nav-link">Shop</a>  
-                            <a href="testimonial.php" class="nav-item nav-link">Testimonial</a>
-                            <a href="contact.php" class="nav-item nav-link active">Contact</a>
+                            <a href="testimonial.php" class="nav-item nav-link active">Testimonial</a>
+                            <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -135,63 +102,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Contact</h1>
+            <h1 class="text-center text-white display-6">Testimonial</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Contact</li>
+                <li class="breadcrumb-item active text-white">Testimonial</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
 
 
-        <!-- Contact Start -->
-        <div class="container-fluid contact py-5">
+        <!-- Tastimonial Start -->
+        <div class="container-fluid testimonial py-5">
             <div class="container py-5">
-                <div class="p-5 bg-light rounded">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="text-center mx-auto" style="max-width: 700px;">
-                                <h1 class="text-primary">Get in touch</h1>
-                                <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
+                <div class="testimonial-header text-center">
+                    <h4 class="text-primary">Our Testimonial</h4>
+                    <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+                </div>
+                <div class="owl-carousel testimonial-carousel">
+                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                        <div class="position-relative">
+                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                            <div class="mb-4 pb-4 border-bottom border-secondary">
+                                <p class="mb-0">The product is good and the best quality
+                                </p>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="h-100 rounded">
-                                <iframe class="rounded w-100" 
-                                style="height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15803.94588211144!2d112.6142170109245!3d-8.000331441005214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd62807d62295ad%3A0x1f213ac9c485a23d!2sGg.%203b%2C%20Mergosono%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1723135759611!5m2!1sid!2sid"
-                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-    <form action="contact.php" class="form" method="post">
-        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="name" placeholder="Your Name" required>
-        <input type="email" class="w-100 form-control border-0 py-3 mb-4" name="email" placeholder="Enter Your Email" required>
-        <textarea class="w-100 form-control border-0 mb-4" name="message" rows="5" cols="10" placeholder="Your Message" required></textarea>
-        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
-    </form>
-</div>
-
-                        <div class="col-lg-5">
-                            <div class="d-flex p-4 rounded mb-4 bg-white">
-                                <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Address</h4>
-                                    <p class="mb-2">jl. kol.sugiono gg 3b, Malang, Indonesia</p>
+                            <div class="d-flex align-items-center flex-nowrap">
+                                <div class="bg-secondary rounded">
+                                    <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                </div>
+                                <div class="ms-4 d-block">
+                                    <h4 class="text-dark">Laura Zen</h4>
+                                    <p class="m-0 pb-3">IBL Player</p>
+                                    <div class="d-flex pe-5">
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex p-4 rounded mb-4 bg-white">
-                                <i class="fas fa-envelope fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Mail Us</h4>
-                                    <p class="mb-2">ahoops@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                        <div class="position-relative">
+                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                            <div class="mb-4 pb-4 border-bottom border-secondary">
+                                <p class="mb-0">affordable price and very good quality
+                                </p>
+                            </div>
+                            <div class="d-flex align-items-center flex-nowrap">
+                                <div class="bg-secondary rounded">
+                                    <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                </div>
+                                <div class="ms-4 d-block">
+                                    <h4 class="text-dark">Bella Jackson</h4>
+                                    <p class="m-0 pb-3">Indonesian National Team Players</p>
+                                    <div class="d-flex pe-5">
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex p-4 rounded bg-white">
-                                <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Telephone</h4>
-                                    <p class="mb-2">(+62) 812 3456 7890</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                        <div class="position-relative">
+                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                            <div class="mb-4 pb-4 border-bottom border-secondary">
+                                <p class="mb-0">The model is attractive and the material is strong
+                                </p>
+                            </div>
+                            <div class="d-flex align-items-center flex-nowrap">
+                                <div class="bg-secondary rounded">
+                                    <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                </div>
+                                <div class="ms-4 d-block">
+                                    <h4 class="text-dark">Jessica Cooper</h4>
+                                    <p class="m-0 pb-3">WIBL Player</p>
+                                    <div class="d-flex pe-5">
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                        <i class="fas fa-star text-primary"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </div>
-        <!-- Contact End -->
+        <!-- Tastimonial End -->
 
 <!-- Footer Start -->
 <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">

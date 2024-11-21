@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     $sql = "DELETE FROM contact WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Pesan berhasil dihapus'); window.location.href='dashboard contact.php';</script>";
+        echo "<script>alert('Pesan berhasil dihapus'); window.location.href='dashboard_contact.php';</script>";
     } else {
         echo "<script>alert('Error: " . $conn->error . "');</script>";
     }

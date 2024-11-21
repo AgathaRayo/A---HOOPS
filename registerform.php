@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "INSERT INTO users (username, email, password, level) VALUES ('$username', '$email', '$password_acak', 'user')";
         if (mysqli_query($conn, $query)) {
             // Jika registrasi berhasil, redirect ke index.html
-            header('Location: index.html');
+            header('Location: index.php');
             exit(); // Tambahkan exit untuk memastikan tidak ada kode lebih lanjut yang dieksekusi
         } else {
             echo "Registrasi User Gagal!";
